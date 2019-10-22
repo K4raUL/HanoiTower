@@ -10,20 +10,34 @@
 	<!-- Модальное окно №1 -->
 	<a href="#x" class="overlay" id="win1"></a>
 	<div class="popup">
-	The objective is to move the entire stack of disks to any another rod in ascending order<br/> 
-	(the smallest at the top), obeying the following rules:<br/><br/>
+    <text style="color:blue; text-decoration: underline;">RULES:</text><br/>
+	The objective is to move the entire stack of disks to any 
+    another rod in ascending order 
+	(the smallest at the top), obeying the following rules:<br/>
 	<b>1.</b>&emsp;Only one disk from the top of the stack can be moved at a time.<br/>
-	<b>2.</b>&emsp;No larger disk may be placed on top of a smaller disk.
+	<b>2.</b>&emsp;No larger disk may be placed on top of a smaller disk.<br/><br/>
+    <text style="color:blue; text-decoration: underline;">CONTROLS:</text><br/>
+    <b>Del</b>&emsp;&emsp;matches <b style="color:#CC0000;">Reset</b> button, returning game in initial state<br/>
+    <b>Enter</b>&emsp;matches <b style="color:#CC0000;">Solve!/Return</b> button, turning auto solving on/off<br/>
+    <b>←</b>&emsp;&emsp;&nbsp; matches <b style="color:#CC0000;"><</b> button, making step backward in the solution<br/>
+    <b>→</b>&emsp;&emsp;&nbsp; matches <b style="color:#CC0000;">></b> button, making step forward in the solution<br/>
+    <b style="color:#CC0000;"><<</b>&emsp;&emsp;view all solution dynamically (backward)<br/>
+    <b style="color:#CC0000;">>></b>&emsp;&emsp;view all solution dynamically (forward)<br/>
 	<a class="close"title="Закрыть" href="#close"></a>
 	</div>
 	
 	<!-- Модальное окно №2 -->
 	<a href="#x" class="overlay" id="win2"></a>
-	<div class="popup" style="text-align: center; padding-top: 20px; pagging-bottom: 20px;">
-		<br>
-		<input type="number" value = 4  style="width:10%;font-size: 24px; font-weight: bold;">
-		<a href="#close"><input type="submit" value="OK" onclick="setSizeD()" style="width:7%; font-size: 24px; font-weight: bold;"></a>
-		<br><br>
+	<div class="popup" style="text-align: center;">
+        <p style="font-size:24px; font-weight:bold;">Input the number of disks 
+        <text style="color:red;">(4-10)</text><br/>
+        (current progress will be lost)</p>
+		<br/>
+        <input type="number" value=4 id="level" onchange="setRange(this)" style="width:16%; border: 1px solid black;">
+        <a href="#close">
+            <input type="submit" value="OK" onclick="setSizeD()" style="width:10%;">
+        </a>
+        <br/>
 	<a class="close"title="Закрыть" href="#close"></a>
 	</div>
 	
@@ -37,16 +51,17 @@
                 <p style="display:inline;">Total moves:&nbsp&nbsp</p>
                 <p style="display:inline; color:green;" id="totalP">0</p>
             </div>
-			<div style="position: relative; top: 80%;">
-				<a href="#win2" class="linkbutton" style="left: 16%">Size (4-10)</a>
-				<a href="#win1" class="linkbutton" style="left: 52%">Rules</a>		<!-- Ссылки на вызов модальных окон-->
+			<div style="position: relative; top: 75%;">
+				<a href="#win2" class="linkbutton">Level</a>
+                <button type="button" id="clearBtn" onclick="ClearFun()">Reset</button>
+				<a href="#win1" class="linkbutton">Help</a>
 							
 			</div>
-			<div style="position: relative; top: 82%;">
-				<button type="button" class="step"><</button>&emsp;
-				<button type="button" class="step"><<</button>&emsp;
-				<button type="button">Solve!</button>&emsp;
-				<button type="button" class="step">></button>&emsp;			
+			<div style="position: relative; top: 77%;">
+				<button type="button" class="step"><</button>
+				<button type="button" class="step"><<</button>
+				<button type="button" id="solveBtn" onclick="solve()">Solve!</button>
+				<button type="button" class="step">></button>
 				<button type="button" class="step">>></button>
 			</div>
         </div>
