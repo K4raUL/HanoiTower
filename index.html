@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HanoiTower</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="text/javascript" src="func.js"></script>
+</head>
+<body onload="Init()">
+	
+	<!-- Модальное окно №1 -->
+	<a href="#x" class="overlay" id="win1"></a>
+	<div class="popup">
+	The objective is to move the entire stack of disks to any another rod in ascending order<br/> 
+	(the smallest at the top), obeying the following rules:<br/><br/>
+	<b>1.</b>&emsp;Only one disk from the top of the stack can be moved at a time.<br/>
+	<b>2.</b>&emsp;No larger disk may be placed on top of a smaller disk.
+	<a class="close"title="Закрыть" href="#close"></a>
+	</div>
+	
+	<!-- Модальное окно №2 -->
+	<a href="#x" class="overlay" id="win2"></a>
+	<div class="popup" style="text-align: center; padding-top: 20px; pagging-bottom: 20px;">
+		<br>
+		<input type="number" value = 4  style="width:10%;font-size: 24px; font-weight: bold;">
+		<a href="#close"><input type="submit" value="OK" onclick="setSizeD()" style="width:7%; font-size: 24px; font-weight: bold;"></a>
+		<br><br>
+	<a class="close"title="Закрыть" href="#close"></a>
+	</div>
+	
+    <div class="wrapper">
+        <div class="data">
+			<div style="position: relative; top:32%;">
+				<p style="display:inline;">Number of disks:&nbsp&nbsp</p>
+				<p style="display:inline; color:green;" id="sizeD">4</p>
+			</div>
+            <div style="position: relative; top:35%;">
+                <p style="display:inline;">Total moves:&nbsp&nbsp</p>
+                <p style="display:inline; color:green;" id="totalP">0</p>
+            </div>
+			<div style="position: relative; top: 80%;">
+				<a href="#win2" class="linkbutton" style="left: 16%">Size (4-10)</a>
+				<a href="#win1" class="linkbutton" style="left: 52%">Rules</a>		<!-- Ссылки на вызов модальных окон-->
+							
+			</div>
+			<div style="position: relative; top: 82%;">
+				<button type="button" class="step"><</button>&emsp;
+				<button type="button" class="step"><<</button>&emsp;
+				<button type="button">Solve!</button>&emsp;
+				<button type="button" class="step">></button>&emsp;			
+				<button type="button" class="step">>></button>
+			</div>
+        </div>
+        <div class="draw">
+            <canvas id="myC">Your browser does not support the HTML5 canvas tag.</canvas>
+        </div>
+    </div>
+
+</body>
+</html>
