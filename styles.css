@@ -31,9 +31,15 @@ input {
 }
 
 canvas {
+	display: inline-block;
     background-color: white;
-    width: 100%;
-    height: 100%;
+    #width: 33.33%;
+    #height: 100%;
+	margin-right: -2px;
+	margin-left: -2px;
+	background: url(rod.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
 }
 
 .data {
@@ -195,4 +201,37 @@ button:hover {
  
 .close:hover {
 	background-color: rgba(252, 20, 0, 0.8);
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 30%;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 19%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
 }
