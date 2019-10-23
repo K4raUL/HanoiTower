@@ -19,8 +19,10 @@
     <text style="color:blue; text-decoration: underline;">CONTROLS:</text><br/>
     <b>Del</b>&emsp;&emsp;matches <b style="color:#CC0000;">Reset</b> button, returning game in initial state<br/>
     <b>Enter</b>&emsp;matches <b style="color:#CC0000;">Solve!/Return</b> button, turning auto solving on/off<br/>
-    <b>←</b>&emsp;&emsp;&nbsp; matches <b style="color:#CC0000;"><</b> button, making step backward in the solution<br/>
-    <b>→</b>&emsp;&emsp;&nbsp; matches <b style="color:#CC0000;">></b> button, making step forward in the solution<br/>
+    <b>←</b>&emsp;&emsp;&nbsp; (auto solve mod) matches <b style="color:#CC0000;"><</b> button, making step backward in the solution<br/>
+	<b>←</b>&emsp;&emsp;&nbsp; (manual mod) matches <b style="color:#CC0000;">Undo</b> button, undo last action<br/>
+    <b>→</b>&emsp;&emsp;&nbsp; (auto solve mod) matches <b style="color:#CC0000;">></b> button, making step forward in the solution<br/>
+	<b>→</b>&emsp;&emsp;&nbsp; (manual mod) matches <b style="color:#CC0000;">Redo</b> button, do declined action again<br/>
     <b style="color:#CC0000;"><<</b>&emsp;&emsp;view all solution dynamically (backward)<br/>
     <b style="color:#CC0000;">>></b>&emsp;&emsp;view all solution dynamically (forward)<br/>
 	<a class="close"title="Закрыть" href="#close"></a>
@@ -51,22 +53,28 @@
                 <p style="display:inline;">Total moves:&nbsp&nbsp</p>
                 <p style="display:inline; color:green;" id="totalP">0</p>
             </div>
+			<div style="position: relative; top: 73%;">
+				<button type="button" id="undoBtn" class="tooltip" style="padding:1px;" onclick="stepNext(-1)"><img src="undo-icon-28.png"><span class="tooltiptext">Undo</span></button>
+				<button type="button" style="vertical-align:top;"id="clearBtn" onclick="ClearFun()">Reset</button>
+				<button type="button" id="redoBtn" class="tooltip" style="padding:1px;" onclick="stepNext(1)"><img src="redo-icon-28.png"><span class="tooltiptext" style="left:85%;">Redo</span></button>
+			</div>
 			<div style="position: relative; top: 75%;">
 				<a href="#win2" class="linkbutton">Level</a>
-                <button type="button" id="clearBtn" onclick="ClearFun()">Reset</button>
 				<a href="#win1" class="linkbutton">Help</a>
 							
 			</div>
 			<div style="position: relative; top: 77%;">
-				<button type="button" class="step"><</button>
 				<button type="button" class="step"><<</button>
+				<button type="button" id="stepbackw" class="step" onclick="stepNext(-1)"><</button>
 				<button type="button" id="solveBtn" onclick="solve()">Solve!</button>
-				<button type="button" class="step">></button>
+				<button type="button" id="stepforw" class="step" onclick="stepNext(1)">></button>
 				<button type="button" class="step">>></button>
 			</div>
         </div>
         <div class="draw">
-            <canvas id="myC">Your browser does not support the HTML5 canvas tag.</canvas>
+            <canvas id="myC0" onclick="selectDisk(this)">Your browser does not support the HTML5 canvas tag.</canvas>
+			<canvas id="myC1" onclick="selectDisk(this)">Your browser does not support the HTML5 canvas tag.</canvas>
+			<canvas id="myC2" onclick="selectDisk(this)">Your browser does not support the HTML5 canvas tag.</canvas>
         </div>
     </div>
 
