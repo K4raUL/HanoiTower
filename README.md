@@ -24,6 +24,6 @@ where n is the number of disks.
 <b>←</b>&emsp;&emsp;&nbsp; (manual mod) matches <b style="color:#CC0000;">Undo</b> button, undo last action<br/>
 <b>→</b>&emsp;&emsp;&nbsp; (auto solve mod) matches <b style="color:#CC0000;">></b> button, making step forward in the solution<br/>
 <b>→</b>&emsp;&emsp;&nbsp; (manual mod) matches <b style="color:#CC0000;">Redo</b> button, do declined action again<br/>
-<b>1</b>&emsp;&emsp;&nbsp; matches click on canvas 0 (left)
-<b>2</b>&emsp;&emsp;&nbsp; matches click on canvas 1 (middle)
-<b>3</b>&emsp;&emsp;&nbsp; matches click on canvas 2 (right)
+<b>1</b>&emsp;&emsp;&nbsp;&nbsp; matches click on canvas 0 (left)<br/>
+<b>2</b>&emsp;&emsp;&nbsp;&nbsp; matches click on canvas 1 (middle)<br/>
+<b>3</b>&emsp;&emsp;&nbsp;&nbsp; matches click on canvas 2 (right)<br/>
