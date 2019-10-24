@@ -53,17 +53,20 @@
                 <p style="display:inline;">Total moves:&nbsp&nbsp</p>
                 <p style="display:inline; color:green;" id="totalP">0</p>
             </div>
-			<div style="position: relative; top: 73%;">
+			<div style="position: relative; top:45%;">
+                <p style="display:inline; color:#F6F8F9;" id="report">Wrong move!</p>
+            </div>
+			<div style="position: relative; top: 70%;">
 				<button type="button" id="undoBtn" class="tooltip" style="padding:1px;" onclick="stepNext(-1)"><img src="undo-icon-28.png"><span class="tooltiptext">Undo</span></button>
 				<button type="button" style="vertical-align:top;"id="clearBtn" onclick="ClearFun()">Reset</button>
 				<button type="button" id="redoBtn" class="tooltip" style="padding:1px;" onclick="stepNext(1)"><img src="redo-icon-28.png"><span class="tooltiptext" style="left:85%;">Redo</span></button>
 			</div>
-			<div style="position: relative; top: 75%;">
+			<div style="position: relative; top: 72%;">
 				<a href="#win2" class="linkbutton">Level</a>
 				<a href="#win1" class="linkbutton">Help</a>
 							
 			</div>
-			<div style="position: relative; top: 77%;">
+			<div style="position: relative; top: 74%;">
 				<button type="button" class="step"><<</button>
 				<button type="button" id="stepbackw" class="step" onclick="stepNext(-1)"><</button>
 				<button type="button" id="solveBtn" onclick="solve()">Solve!</button>
