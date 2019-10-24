@@ -66,7 +66,7 @@ function setSizeD()
 function ClearFun()
 {
 	isDiskActive = 0;
-	isSolutionActive = 0;
+	//isSolutionActive = 0;
 	
     Dpos = [];
 	for (var i = 0; i < N; i++) Dpos[i] = 0;
@@ -304,5 +304,3 @@ function shuffle(array) {
 
   return array;
 }
-
-
