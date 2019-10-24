@@ -40,6 +40,9 @@ document.addEventListener('keydown', function (e) {
 		}
 		stepNext(1);
 	}
+	else if (code == 49 || code == 97) selectDisk(document.getElementById("myC0"));
+	else if (code == 50 || code == 98) selectDisk(document.getElementById("myC1"));
+	else if (code == 51 || code == 99) selectDisk(document.getElementById("myC2"));	
 }, false);
   
 function timeoutStyle(elemStyle)
@@ -124,6 +127,8 @@ function Init()
 // select or move disk in depending of isDiskAvtive
 function selectDisk(sender)
 {
+	if (isSolutionActive) return;
+	
 	var elst = document.getElementById("report");
 	var iter = 0;
 	var sid = sender.id;
