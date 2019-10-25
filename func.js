@@ -9,8 +9,9 @@ let colors = [0x10FF00FF, 0x1000FFFF, 0xFF1000FF, 0x10FFFFFF, 0xFFFF10FF, 0xCC10
 var cW, cH;				// canvas width and height
 var D0_width, D0_height, zeroH, delta;
 
-var fullclr = '255';
-var darkclr = '220';
+function mod(n, m) {
+  return ((n % m) + m) % m;
+}
 
 document.addEventListener('keydown', function (e) {
     var code = e.keyCode;
@@ -65,8 +66,15 @@ function setSizeD()
       
 function ClearFun()
 {
+	if (isSolutionActive) {
+		isSolutionActive = 0;
+		document.getElementById("solveBtn").innerHTML = "Solve!";
+		var appBanners = document.getElementsByClassName('step');
+		for (var i = 0; i < appBanners.length; i++) {
+			appBanners[i].style.display = 'none';
+		}
+	}
 	isDiskActive = 0;
-	//isSolutionActive = 0;
 	
     Dpos = [];
 	for (var i = 0; i < N; i++) Dpos[i] = 0;
@@ -140,16 +148,15 @@ function selectDisk(sender)
 	if (isDiskActive) {
 		if (iter != isDiskActive-1) {
 			var startIter = isDiskActive-1;
-			MoveDisk(startIter, false, 0);
 			// if player tried to put bigger disk above smaller
-			if (!MoveDisk(iter, true, 64)) {
+			if (!MoveDisk(startIter, iter)) {
 				elst.style.color = 'red';
 				setTimeout(function(){
 					elst.style.color = '#F6F8F9';
 				}, 1000);
 				
+				SelectDisk(startIter);
 				isDiskActive = 0;
-				MoveDisk(startIter, true, 64);
 				return;
 			}
 			
@@ -166,47 +173,68 @@ function selectDisk(sender)
 			}
 		}
 		// drop selection
-		else {
-			isDiskActive = 0;
-			MoveDisk(iter, false);
-			MoveDisk(iter, true, 64);	
-		}
+		else SelectDisk(iter);
 		isDiskActive = 0;
 	}
 	// select disk (set active)
 	else {
-		MoveDisk(iter, true, 0);
+		if (!SelectDisk(iter)) {
+			elst.style.color = 'red';
+			elst.innerHTML = 'Empty rod!';
+			setTimeout(function(){
+				elst.style.color = '#F6F8F9';
+				elst.innerHTML = 'Wrong move!';
+			}, 1000);	
+			return;
+		}
 		isDiskActive = iter+1;
 	}
 }
 
-// type = true - place disk on top of given rod
-// type = false - replace disk from top of given rod
-function MoveDisk(canv, type, opac)		
+// remove disk from top of canv0 and place it to canv1
+function MoveDisk(canv0, canv1)
 {
-	var topD = Dpos.findIndex(function(element) { 
-		return element == ((isDiskActive && type) ? (isDiskActive-1) : canv); 
+	var topD0 = Dpos.findIndex(function(element) { 
+		return element == canv0; 
 	});
-	var diskNum = DiskSum(canv);
-	if (isDiskActive && type) {
-		if (diskNum != 0) {
-			var destD = Dpos.findIndex(function(element) { 
-				return element == canv; 
-			});
-			if (topD > destD) return false;
-		}
-		
-		diskNum++;
-		Dpos[topD] = canv;
-	}
+	var topD1 = Dpos.findIndex(function(element) { 
+		return element == canv1; 
+	});
+	if (DiskSum(canv0) == 0) return false;
+	if (topD0 > topD1 && DiskSum(canv1) != 0) return false;
+	Dpos[topD0] = canv1;
+
+	var diskNum = DiskSum(canv0)+1;
+	var tlX = cW/2 - D0_width*(1 - (N-1-topD0)*delta)/2;
+	var tlY = zeroH - diskNum*D0_height;
+	var diW = D0_width*(1 - (N-1-topD0)*delta);
+	ctx[canv0].clearRect(tlX-1, tlY-1, diW+2, D0_height);
 	
+	diskNum = DiskSum(canv1);
+	tlX = cW/2 - D0_width*(1 - (N-1-topD0)*delta)/2;
+	tlY = zeroH - diskNum*D0_height;
+	ctx[canv1].fillStyle = "#" + (colors[topD0]-64).toString(16);
+	roundRect(ctx[canv1], tlX, tlY, diW, D0_height, D0_height/2.05, true, true);	
+	
+	return true;
+}
+
+// select/unselect disk (make active/inactive) on top of canv
+function SelectDisk(canv)
+{
+	var diskNum = DiskSum(canv);
+	if (diskNum == 0) return false;
+	var topD = Dpos.findIndex(function(element) { 
+		return element == canv; 
+	});
+
+	var opac = isDiskActive ? 64 : 0;
 	var tlX = cW/2 - D0_width*(1 - (N-1-topD)*delta)/2;
 	var tlY = zeroH - diskNum*D0_height;
 	var diW = D0_width*(1 - (N-1-topD)*delta);
-
 	ctx[canv].fillStyle = "#" + (colors[topD]-opac).toString(16);
-	if (type) roundRect(ctx[canv], tlX, tlY, diW, D0_height, D0_height/2.05, true, true);
-	else ctx[canv].clearRect(tlX-1, tlY-1, diW+2, D0_height);
+	ctx[canv].clearRect(tlX-1, tlY-1, diW+2, D0_height);
+	roundRect(ctx[canv], tlX, tlY, diW, D0_height, D0_height/2.05, true, true);	
 	
 	return true;
 }
@@ -220,19 +248,53 @@ function DiskSum(cid)
 	return sum;
 }
 
-function solve()
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function solve()
 {
-    isSolutionActive ^= 1;
-    
-    document.getElementById("solveBtn").innerHTML = isSolutionActive ? "Return" : "Solve!";
+    document.getElementById("solveBtn").innerHTML = !isSolutionActive ? "Return" : "Solve!";
     var appBanners = document.getElementsByClassName('step');
     for (var i = 0; i < appBanners.length; i++) {
-        appBanners[i].style.display = isSolutionActive ? 'inline-block' : 'none';
+        appBanners[i].style.display = !isSolutionActive ? 'inline-block' : 'none';
     }
-    
+	
+	// clearing
+	isDiskActive = 0;
+    Dpos = [];
+	for (var i = 0; i < N; i++) Dpos[i] = 0;
+	ctx[0].clearRect(0, 0, cW, cH);
+	ctx[1].clearRect(0, 0, cW, cH);
+	ctx[2].clearRect(0, 0, cW, cH);
+    document.getElementById("totalP").innerHTML = 0;
+	shuffle(colors);
+	DrawInitField();   
+
+ 	isSolutionActive ^= 1;
     if (!isSolutionActive) return;
-    
-    ClearFun();
+
+	
+	for (var i = 1; i < 2**N; i++) {
+		var cstep = 0;
+		for (var j = 1; j <= N; j++) {
+			if (i%(2**j) == 2**(j-1)) {
+				cstep = j-1;
+				break;
+			}
+		}
+		var newR = (cstep%2) ? mod(Dpos[cstep]+1, 3) : mod(Dpos[cstep]-1, 3);
+		MoveDisk(Dpos[cstep], newR);
+		Dpos[cstep] = newR;
+		
+		var score = Number(document.getElementById("totalP").innerHTML)+1;
+		document.getElementById("totalP").innerHTML = score;
+		await sleep(400);
+		if (!isSolutionActive) {
+			//ClearFun();
+			return;
+		}
+	}
     stepNext(1);
 }
 
@@ -304,3 +366,4 @@ function shuffle(array) {
 
   return array;
 }
+
